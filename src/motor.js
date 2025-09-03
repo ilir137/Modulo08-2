@@ -1,74 +1,41 @@
 export function obtenerPacientesSegunEspecialidad(pacientes, especialidad) {
-    const pacientesPediatria = [];
-
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].especialidad === especialidad) {
-            pacientesPediatria.push(pacientes[i]);
-            console.log(`El paciente ${pacientes[i].nombre} ${pacientes[i].apellidos} está asignado a ${especialidad}.`);
-        }
-    }
-
-    return pacientesPediatria;
+    return pacientes.filter(paciente => paciente.especialidad === especialidad);
 }
 
 export function obtenerPacientesAsignadosAPediatriaYMenorDeDiezAños( pacientes ) {
-    const pacientesPediatria = [];
-
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].especialidad === "Pediatra" && pacientes[i].edad < 10) {
-            pacientesPediatria.push(pacientes[i]);
-        }
-    }
-    
-    return pacientesPediatria;
+    return pacientes.filter(paciente => paciente.especialidad === "Pediatra" && paciente.edad < 10);
 };
 
 export function activarProtocoloUrgencia( pacientes ) {
-    const pacientesEnProtocolo = [];
-    let activarProctolo = false;
-
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].temperatura > 39 || pacientes[i].frecuenciaCardiaca > 100) {
-            console.log(`Activando protocolo de urgencia para el paciente: ${pacientes[i].nombre} ${pacientes[i].apellidos}`);
-            pacientesEnProtocolo.push(pacientes[i]);
-            activarProctolo = true;
-        }
-    }
+    const pacientesEnProtocolo = pacientes.filter(paciente => paciente.temperatura > 39 || paciente.frecuenciaCardiaca > 100);
+    const activarProctolo = pacientes.some(paciente => paciente.temperatura > 39 || paciente.frecuenciaCardiaca > 100);
 
     return [activarProctolo, pacientesEnProtocolo];
 }
 
 export function reasignaPacientes(pacientes, especialidad, nuevaEspecialidad) {
-    const pacientesReasignados = [];
+    const pacientesEspecialidad = pacientes.filter(paciente => paciente.especialidad === especialidad);;
 
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].especialidad === especialidad) {
-
-            pacientes[i].especialidad = nuevaEspecialidad;
-            pacientesReasignados.push(pacientes[i]);
-            console.log(`El paciente ${pacientes[i].nombre} ${pacientes[i].apellidos} ha sido reasignado a ${nuevaEspecialidad}.`);
-        }
-    }
+    const pacientesReasignados = pacientesEspecialidad.map(( paciente) => ({
+        ...paciente,
+        especialidad: paciente.especialidad === especialidad ? nuevaEspecialidad : paciente.especialidad
+    }));
 
     return pacientesReasignados;
 }
 
 export function hayPacientesEnLaEspecialidad(pacientes, especialidad) {
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].especialidad === especialidad) {
-            return true;
-        }
-    }
-    return false;
+    return pacientes.some((paciente) => paciente.especialidad === especialidad);
 }
 
 export function contarPacientesAsignadosAEspecialidad( pacientes, especialidad ) {
     var numPacientes = 0;
-    for (let i = 0; i < pacientes.length; i++) {
-        if (pacientes[i].especialidad === especialidad) {
-            console.log(pacientes[i]);
+
+    pacientes.forEach(( paciente ) => {
+        if ( paciente.especialidad === especialidad ) {
             numPacientes++;
         }
-    }
+    });
+    
     return numPacientes;
 }
