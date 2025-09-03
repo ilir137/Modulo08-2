@@ -9,16 +9,16 @@ export function renderizarPacientes(listadoPacientesPediatria, pacientesPediatri
         listadoPacientesPediatria.appendChild(noHayPacientesDiv);
         return;
     } else {
-        for (let i = 0; i < pacientesPediatria.length; i++) {
+        pacientesPediatria.forEach(paciente => {
             const pacienteDiv = document.createElement("div");
             
             pacienteDiv.textContent = `
-            ${pacientesPediatria[i].nombre} ${pacientesPediatria[i].apellidos}:
-            Edad: ${pacientesPediatria[i].edad}, 
-            Especialidad: ${pacientesPediatria[i].especialidad}`;
+            ${paciente.nombre} ${paciente.apellidos}:
+            Edad: ${paciente.edad}, 
+            Especialidad: ${paciente.especialidad}`;
 
             listadoPacientesPediatria.appendChild(pacienteDiv);
-        }
+        });
     }
 }
 
